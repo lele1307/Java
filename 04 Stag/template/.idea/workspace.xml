@@ -4,7 +4,13 @@
     <option name="GROUP_BY_SEVERITY" value="true" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="56aebeaf-afd9-4a17-a98f-7bbe3ca81fde" name="Default Changelist" comment="" />
+    <list default="true" id="56aebeaf-afd9-4a17-a98f-7bbe3ca81fde" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/template/META-INF/template.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/template/Stag.zip" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/template/Stag.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/template/StagClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/template/StagClient.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +28,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
   <component name="ProjectId" id="1ZFc4t8oWEUe7pPahe2AvWotoSM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -30,10 +40,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -52,7 +63,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.StagClient">
+  <component name="RunManager" selected="Application.StagClient(1)">
     <configuration name="PrintTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
       <option name="MAIN_CLASS_NAME" value="PrintTest" />
@@ -108,8 +119,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.StagClient" />
         <item itemvalue="Application.StagServer" />
+        <item itemvalue="Application.StagClient" />
         <item itemvalue="Application.PrintTest" />
         <item itemvalue="Application.PrintTest" />
         <item itemvalue="Application.PrintTest" />
@@ -140,6 +151,11 @@
       <workItem from="1584631292570" duration="7719000" />
       <workItem from="1584871787342" duration="5068000" />
       <workItem from="1585157526836" duration="11055000" />
+      <workItem from="1586788752683" duration="3859000" />
+      <workItem from="1586794896344" duration="2417000" />
+      <workItem from="1586868624657" duration="1719000" />
+      <workItem from="1586871451388" duration="2714000" />
+      <workItem from="1587023866653" duration="1674000" />
     </task>
     <servers />
   </component>
@@ -188,26 +204,26 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="474" y="226" key="EnvironmentVariablesDialog/0.0.1440.900@0.0.1440.900" timestamp="1584558799358" />
-    <state width="1398" height="588" key="GridCell.Tab.0.bottom" timestamp="1585256453346">
+    <state width="1097" height="359" key="GridCell.Tab.0.bottom" timestamp="1586797520776">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state width="1398" height="266" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584640917607" />
-    <state width="1398" height="588" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1585256453346" />
-    <state width="1398" height="588" key="GridCell.Tab.0.center" timestamp="1585256453344">
+    <state width="1097" height="359" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1586797520776" />
+    <state width="1097" height="359" key="GridCell.Tab.0.center" timestamp="1586797520776">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state width="1398" height="266" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584640917605" />
-    <state width="1398" height="588" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1585256453344" />
-    <state width="1398" height="588" key="GridCell.Tab.0.left" timestamp="1585256453343">
+    <state width="1097" height="359" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1586797520776" />
+    <state width="1097" height="359" key="GridCell.Tab.0.left" timestamp="1586797520775">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state width="1398" height="266" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584640917604" />
-    <state width="1398" height="588" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1585256453343" />
-    <state width="1398" height="588" key="GridCell.Tab.0.right" timestamp="1585256453345">
+    <state width="1097" height="359" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1586797520775" />
+    <state width="1097" height="359" key="GridCell.Tab.0.right" timestamp="1586797520776">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state width="1398" height="266" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584640917606" />
-    <state width="1398" height="588" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1585256453345" />
+    <state width="1097" height="359" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1586797520776" />
     <state width="1398" height="303" key="GridCell.Tab.1.bottom" timestamp="1584445456152">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -224,11 +240,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1584445456151" />
-    <state x="208" y="31" key="SettingsEditor" timestamp="1584557515020">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="208" y="53" key="SettingsEditor" timestamp="1586790441791">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="208" y="31" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1584557515020" />
-    <state x="208" y="53" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1584444863562" />
+    <state x="208" y="53" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1586790441791" />
     <state x="458" y="216" key="extract.method.dialog" timestamp="1584611059469">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
