@@ -25,7 +25,8 @@
 
 <Updacte>         ::=  UPDATE <TableName> SET <NameValueList> WHERE <Condition> 
 
-<Delete>         ::=  DELETE FROM <TableName> WHERE <Condition>
+<Delete>         ::=  DELETE FROM <TableName> WHERE <Condition>    
+Do not shift the ids when deleting (you'd have to track down and update foreign keys if you did !)
 
 <Join>           ::=  JOIN <TableName> AND <TableName> ON <AttributeName> AND <AttributeName>
 
@@ -39,6 +40,8 @@
 
 <Value>          ::=  '<StringLiteral>'  |  <BooleanLiteral>  |  <FloatLiteral>  |  <IntegerLiteral>
 
+ Strings can be multiple words (enclosed in single quotes)
+
 <BooleanLiteral> ::=  true | false
 
 <WildAttribList> ::=  <AttributeList> | *
@@ -50,6 +53,16 @@
                       <AttributeName> <Operator> <Value>
 
 <Operator>       ::=   ==   |   >   |   <   |   >=   |   <=   |   !=   |   LIKE
+
+== and != should work on all data types
+
+> < => => are only expected to work for numerical types
+
+LIKE are only expected to work for strings
+
+condition(start, end) {
+      condition(start, loc - 1) && condition(loc + 1, end)
+}
 
 
 

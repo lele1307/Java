@@ -55,7 +55,24 @@ Entered query:   DELETE INTO marks WHERE name == 'Steve';
 Server response: ERROR Unexpected token 'INTO'
 
 
+ALTER TABLE marks ADD units;
+ALTER TABLE marks DROP units;
+
+SELECT * FROM marks;
+SELECT * FROM marks WHERE name == 'Dave';
+SELECT * FROM marks WHERE (name == 'Bob') OR (name == 'Dave');
+SELECT * FROM marks WHERE ((name == 'Bob') AND (name == 'Dave')) OR (name == 'Dave');
+SELECT name, mark FROM marks;
+SELECT name FROM marks WHERE name == 'Dave';
+SELECT name, mark FROM marks WHERE (name == 'Bob') OR (name == 'Dave');
 
 
-DELETE FROM marks WHERE (name == 'Dave') AND (name == 'Dave');
+SELECT name, mark FROM marks;
+
+
+
+DELETE FROM marks WHERE (name >= 'Dave') OR (name == 'Dave');
+UPDATE Person SET Address = 'Zhongshan 23', City = 'Nanjing' WHERE LastName = 'Wilson';
+
+
 
