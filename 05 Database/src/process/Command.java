@@ -3,6 +3,7 @@ import commandtype.*;
 import commandtype.create.*;
 import commandtype.inout.Reader;
 import content.Condition;
+import content.ConditionExe;
 
 import static java.lang.System.*;
 
@@ -95,9 +96,13 @@ public class Command  {
                 Select actionSelect = new Select();
                 return actionSelect.cmdSelect(terminal,input);
             default:
-                //Condition con = new Condition(input);
-                //con.parseNormalCondition(con.getConditionStr());
-                //System.out.println(con.parseConditionStr(con.getConditionStr()));
+                /*Condition con = new Condition(input);
+                con.parseNormalCondition(con.getConditionStr());
+                System.out.println(con.parseConditionStr(con.getConditionStr()));*/
+                /*Reader reader = new Reader("data/markbook/marks.csv");
+                ConditionExe conditionExe = new ConditionExe(input,reader);
+                conditionExe.exeCondition(conditionExe.getConditionStr());
+                System.out.println(conditionExe.getTargetRows());*/
                 terminal.setOutput("Please check your input command!");
                 return terminal;
         }

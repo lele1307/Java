@@ -82,7 +82,7 @@ public class Alter {
             tableContent[0]= addEleInLine(list,tableContent[0],attributeName);
             list = new ArrayList<String>();
             for (int i=1; i<tableContent.length;i++){
-                tableContent[i]=addEleInLine(list,tableContent[i],"null");
+                tableContent[i]=addEleInLine(list,tableContent[i],"NULL");
                 list = new ArrayList<String>();
             }
         }

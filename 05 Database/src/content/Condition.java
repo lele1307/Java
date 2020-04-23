@@ -25,9 +25,6 @@ public class Condition extends Value {
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(opt);
         if (m.find()){
-            /*System.out.println(m.start());
-            System.out.println(m.end());
-            System.out.println(m.group());*/
             return m.group();
             //return first opt str
         } else {
@@ -39,10 +36,24 @@ public class Condition extends Value {
         String pattern = "(AND|OR)";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(target);
-        if (m.find()){
-            return m.group();
+        int count = 0;
+        String conType = "";
+        while (m.find()){
+            conType = m.group();
+            count++;
         }
-        return "";
+        if (count>1){
+            while (m.find()){
+                int start = m.start();
+                int end = m.end();
+                String left = getNormalCondition(target,0,start);
+                String right = getNormalCondition(target,end,target.length());
+                if (left!=""&&right!=""){
+                    conType=m.group();
+                }
+            }
+        }
+        return conType;
     }
 
     public boolean setConditionStr(String[] cmd) {
@@ -87,7 +98,12 @@ public class Condition extends Value {
         if (regex!=""&&str!=""){
             str = str.replaceAll(" ","");
             //System.out.println(str);
-            String[] split = str.split(regex);
+            String[] split;
+            if (regex.equals("LIKE")&&str.contains("like")){
+                split = str.split("like");
+            }else {
+                split = str.split(regex);
+            }
             if (split.length==2){
                 AttributeName = split[0];
                 Value = split[1];
@@ -107,10 +123,6 @@ public class Condition extends Value {
         while (m.find()){
             int start = m.start();
             int end = m.end();
-            System.out.println(m.start());
-            System.out.println(m.end());
-            System.out.println(m.group());
-            System.out.println("-------------------");
             String left = getNormalCondition(str,0,start);
             String right = getNormalCondition(str,end,str.length());
             System.out.println("left: |"+left+"|");
@@ -153,7 +165,5 @@ public class Condition extends Value {
         }
         return true;
     }
-
-
 
 }

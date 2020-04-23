@@ -1,7 +1,13 @@
 package commandtype;
+import commandtype.inout.Reader;
+import commandtype.inout.Writer;
 import content.Condition;
+import content.ConditionExe;
 import content.Name;
 import process.Terminal;
+
+import java.util.List;
+
 /**
  * @author dukehan
  */
@@ -10,10 +16,11 @@ public class Delete {
     final static int FROM = 1;
     final static int WHERE = 3;
     final static int TABLENAME = 2;
-    private String[] condition;
+    private String tableName;
     public Terminal cmdDelete(Terminal terminal, String[] command){
         if (parseCmd(command)){
             terminal.setOutput("Delete parse OK");
+            compileDelete(terminal,command);
             return terminal;
         }
         terminal.setOutput("Delete parse fail!!");
@@ -22,6 +29,7 @@ public class Delete {
 
     public boolean parseCmd(String[] command){
         if (command.length==CMDLEN && Name.parseName(command[TABLENAME])){
+            tableName = command[TABLENAME];
             String where = command[WHERE];
             String from = command[FROM];
             if ("WHERE".equals(where) && "FROM".equals(from)){
@@ -33,4 +41,44 @@ public class Delete {
         }
         return false;
     }
+
+    public Terminal compileDelete(Terminal terminal,String[] command){
+        String pathName = terminal.getCurrentPath()+tableName+".csv";
+        Reader reader = new Reader(pathName);
+        if (reader.isExists()){
+            ConditionExe conditionExe = new ConditionExe(command,reader);
+            conditionExe.exeCondition(conditionExe.getConditionStr());
+            List<Integer> rows = conditionExe.getTargetRows();
+            System.out.println(rows);
+            if (rows.size()!=0){
+                String[][] newTable = delEleTable(reader,rows);
+                reader.printTable(newTable);
+                Writer writer = new Writer(pathName);
+                writer.emptyFile();
+                if(writer.writeTableInFile(newTable)){
+                    terminal.setOutput("OK del");
+                }else {
+                    terminal.setOutput("ERROR: del update table!");
+                }
+            }else{
+                terminal.setOutput("ERROR: Invalid query.");
+            }
+        }else {
+            terminal.setOutput("ERROR: Unknown table "+"'"+tableName+"'.");
+        }
+        return terminal;
+    }
+
+    public String[][] delEleTable(Reader reader,List<Integer> rows){
+        reader.readAllTable();
+        String[][] table = reader.getTableContent();
+        int colLen = table[0].length;
+        for (int i=0;i<rows.size();i++){
+            for (int j=0;j<colLen;j++){
+                table[rows.get(i)][j] = "";
+            }
+        }
+        return table;
+    }
+
 }

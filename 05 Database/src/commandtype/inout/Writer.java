@@ -8,7 +8,6 @@ public class Writer {
     public Writer(String pathname){
         this.csv = new File(pathname);
     }
-
     public boolean writeOneLineInFile(String data) {
         try {
             /* CSV file create */
@@ -31,11 +30,13 @@ public class Writer {
     public String buildStrLine(String[] line){
         String newStr = "";
         for (int i=0; i<line.length;i++){
-            newStr = newStr.concat(line[i]);
-            if (i==line.length-1){
-                break;
+            if (line[i]!=""){
+                newStr = newStr.concat(line[i]);
+                if (i==line.length-1){
+                    break;
+                }
+                newStr = newStr.concat("\t,");
             }
-            newStr = newStr.concat("\t,");
         }
         return newStr;
     }

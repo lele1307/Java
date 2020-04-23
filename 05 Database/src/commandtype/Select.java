@@ -1,29 +1,31 @@
 package commandtype;
 import commandtype.inout.Reader;
 import content.Condition;
+import content.ConditionExe;
 import content.Name;
 import process.Terminal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dukehan
  */
 public class Select {
     final static int CMDLEN = 4;
-    final static int STAR = 1;
-    final static int FROM = 2;
     private int where = -1;
     private int from = -1;
     private String tableName;
     private String AttribList;
     private String[] AttribLists;
-    private String[] condition;
+    private String condition;
     public Terminal cmdSelect(Terminal terminal, String[] command){
         if (parseCmd(command)){
-            terminal.setOutput("Select parse OK");
-            //compileSelect(terminal,command);
+            terminal.setOutput("OK Select parse");
+            compileSelect(terminal,command);
             return terminal;
         }
-        terminal.setOutput("Select parse fail!!");
+        terminal.setOutput("ERROR: Select parse");
         return terminal;
     }
 
@@ -33,21 +35,23 @@ public class Select {
             from = getSpecialStr(command,"FROM");
             where = getSpecialStr(command,"WHERE");
             tableName = command[from+1];
-            int len = from+2;
-            setAttribList(command,from);
-            printAttribList();
-            if ((AttribLists[0].equals("*")&&AttribLists.length==1)){
-                flag++;
-            }else if (Name.parseNameList(AttribLists)){
-                flag++;
-            }else {
-                flag=-1;
-            }
-            if (flag>0){
-                if (len==command.length){
-                    return true;
-                }else if (len<command.length){
-                    return checkCondition(where,command);
+            if (from!=-1&&Name.parseName(tableName)){
+                int len = from+2;
+                setAttribList(command,from);
+                printAttribList();
+                if ((AttribLists[0].equals("*")&&AttribLists.length==1)){
+                    flag++;
+                }else if (Name.parseNameList(AttribLists)){
+                    flag++;
+                }else {
+                    flag=-1;
+                }
+                if (flag>0){
+                    if (len==command.length){
+                        return true;
+                    }else if (len<command.length){
+                        return checkCondition(where,command);
+                    }
                 }
             }
         }
@@ -58,6 +62,7 @@ public class Select {
         if (where!=-1){
             Condition con = new Condition(command);
             if (con.parseConditionStr(con.getConditionStr())){
+                condition = con.getConditionStr();
                 return true;
             }
         }
@@ -65,11 +70,11 @@ public class Select {
     }
 
     public void setAttribList(String[] command,int from) {
-        this.AttribList = "";
+        AttribList = "";
         for (int i=1; i<from; i++){
-            this.AttribList = this.AttribList.concat(command[i]);
+            AttribList = AttribList.concat(command[i]);
         }
-        this.AttribLists = this.AttribList.split(",");
+        AttribLists = AttribList.split(",");
     }
 
     public void printAttribList(){
@@ -88,29 +93,50 @@ public class Select {
     }
 
     public Terminal compileSelect(Terminal terminal,String[] command){
-        System.out.println(tableName);
         String pathName = terminal.getCurrentPath()+tableName+".csv";
-        Reader reader = new Reader("data/"+tableName+".csv");
-        String get = feedbackSelect(reader,AttribLists,condition);
-        System.out.println(get);
-        /*if (reader.isExists()){
-
+        Reader reader = new Reader(pathName);
+        if (reader.isExists()){
+            String get = feedbackSelect(reader,AttribLists,condition,command);
+            if (get!=""){
+                terminal.setOutput(get);
+            }else{
+                terminal.setOutput("ERROR: Invalid query.");
+            }
         } else {
-            terminal.setOutput("ERROR Unknown table "+"'"+tableName+"'.");
-        }*/
+            terminal.setOutput("ERROR: Unknown table "+"'"+tableName+"'.");
+        }
         return terminal;
     }
 
-    public String feedbackSelect(Reader reader,String[]attribLists,String[] condition) {
+    public String feedbackSelect(Reader reader,String[]attribLists,String condition,String[] command) {
         String result = "";
         if (condition!=null){
-            if (condition[0].contains("(")){
-                //<AttributeName> <Operator> <Value>
-            }else {
-                //( <Condition> ) AND/OR ( <Condition> )
-            }
+            ConditionExe conditionExe = new ConditionExe(command,reader);
+            conditionExe.exeCondition(conditionExe.getConditionStr());
+            List<Integer> rows = conditionExe.getTargetRows();
+            System.out.println(rows);
+            result = getConditionSelectResult(attribLists,rows,reader);
         } else {
             result = reader.readColumn(attribLists);
+        }
+        return result;
+    }
+
+    public String getConditionSelectResult(String[]attribLists,List<Integer> rows,Reader reader){
+        ArrayList<Integer> attributesIndex = reader.getAttributesIndex(attribLists);
+        String result = "";
+        if(attributesIndex.size()!=0 && rows.size()!=0){
+            rows.add(0,0);
+            System.out.println("cols: "+attributesIndex);
+            System.out.println("rows: "+rows);
+            reader.readAllTable();
+            String[][] tableContent = reader.getTableContent();
+            for (int i=0;i<rows.size();i++){
+                for (int j=0;j<attributesIndex.size();j++){
+                    result = result.concat(tableContent[rows.get(i)][attributesIndex.get(j)]+" ");
+                }
+                result = result.concat("\n");
+            }
         }
         return result;
     }

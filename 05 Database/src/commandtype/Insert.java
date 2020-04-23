@@ -53,13 +53,13 @@ public class Insert extends Value {
         Reader reader = new Reader(pathName);
         if (reader.isExists()){
             String[] attributesList = reader.readFirstLine();
-            int currentRawIndex = reader.getTableLines();
+            int currentRowIndex = getCurrentRowIndex(reader);
             if (valNum+1!=attributesList.length){
                 terminal.setOutput("ERROR : your input values are not match attributeLists!!");
             } else {
                 //Insert
                 Writer writer = new Writer(pathName);
-                String newInsertLine = insertNewLine(currentRawIndex,valueList,writer);
+                String newInsertLine = insertNewLine(currentRowIndex,valueList,writer);
                 System.out.println(newInsertLine);
                 writer.writeOneLineInFile(newInsertLine);
                 terminal.setOutput("OK Insert");
@@ -68,6 +68,19 @@ public class Insert extends Value {
             terminal.setOutput("ERROR Unknown table "+"'"+tableName+"'.");
         }
         return terminal;
+    }
+
+    public int getCurrentRowIndex(Reader reader){
+        reader.readAllTable();
+        String[][] table = reader.getTableContent();
+        int rows = table.length;
+        int currIndex = -1;
+        if ("id".equals(table[rows-1][0])){
+            currIndex = 0;
+        } else {
+            currIndex = Integer.parseInt(table[rows-1][0])+1;
+        }
+        return currIndex;
     }
 
     public String insertNewLine(int currentRawIndex,String[] valueList,Writer writer){

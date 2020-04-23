@@ -1,5 +1,0 @@
-id	,name	,mark	,pass	,unit2
-1	,'Steve'	,65	,true	,null
-2	,'Dave'	,55	,true	,null
-3	,'Bob'	,35	,false	,null
-4	,'Clive'	,20	,false	,null
