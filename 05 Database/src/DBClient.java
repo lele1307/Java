@@ -5,8 +5,7 @@ public class DBClient
 {
     final static char EOT = 4;
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         try {
             BufferedReader commandLine = new BufferedReader(new InputStreamReader(System.in));
             Socket socket = new Socket("127.0.0.1", 8888);
@@ -20,8 +19,7 @@ public class DBClient
         }
     }
 
-    private static void handleNextCommand(BufferedReader commandLine, BufferedWriter out, BufferedReader in)
-    {
+    private static void handleNextCommand(BufferedReader commandLine, BufferedWriter out, BufferedReader in) {
         try {
             System.out.print("SQL:> ");
             String command = commandLine.readLine();

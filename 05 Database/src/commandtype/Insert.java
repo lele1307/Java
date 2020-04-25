@@ -62,7 +62,7 @@ public class Insert extends Value {
                 String newInsertLine = insertNewLine(currentRowIndex,valueList,writer);
                 System.out.println(newInsertLine);
                 writer.writeOneLineInFile(newInsertLine);
-                terminal.setOutput("OK Insert");
+                terminal.setOutput("OK");
             }
         } else {
             terminal.setOutput("ERROR Unknown table "+"'"+tableName+"'.");
@@ -74,9 +74,9 @@ public class Insert extends Value {
         reader.readAllTable();
         String[][] table = reader.getTableContent();
         int rows = table.length;
-        int currIndex = -1;
+        int currIndex = 0;
         if ("id".equals(table[rows-1][0])){
-            currIndex = 0;
+            currIndex = 1;
         } else {
             currIndex = Integer.parseInt(table[rows-1][0])+1;
         }

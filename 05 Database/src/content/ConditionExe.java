@@ -6,9 +6,7 @@ import java.util.*;
  * @author dukehan
  */
 public class ConditionExe extends Condition {
-    private List<Integer> targetRows;
     private List<String> tableAttribute;
-    private String conditionStr;
     private Value value;
     private Reader reader;
     private int optValType;
@@ -16,48 +14,50 @@ public class ConditionExe extends Condition {
         super(command);
         this.reader = reader;
         this.value = new Value();
-        this.conditionStr = getConditionStr();
         this.tableAttribute = setTableAttribute(reader.readFirstLine());
         this.optValType = -1;
-        this.targetRows = new ArrayList<>();
     }
 
     public List<String> setTableAttribute(String[] target){
         return Arrays.asList(target);
     }
 
-    public boolean exeCondition(String targetConditionStr){
+    public List<Integer> exeCondition(String targetConditionStr){
         List<String> pairCondition = new ArrayList<>();
         String ConditionType = checkConditionType(targetConditionStr);
-        boolean result = false;
+        List<Integer> targetCurrRows = new ArrayList<>();
+        //boolean result = false;
         if (ConditionType!=""){
             pairCondition = parseConnectCondition(targetConditionStr);
             for (int i=0; i<pairCondition.size();i++){
-                result = exeCondition(pairCondition.get(i));
+                targetCurrRows.addAll(exeCondition(pairCondition.get(i)));
             }
             if (ConditionType.equals("AND")){
-                targetRows = getRepeat(targetRows);
+                targetCurrRows = getRepeat(targetCurrRows);
             }else if (ConditionType.equals("OR")){
-                targetRows = delRepeat(targetRows);
+                targetCurrRows = delRepeat(targetCurrRows);
             }
         } else {
             if (ConditionType == ""){
-                result = exeNormalCondition(targetConditionStr);
+                targetCurrRows = exeNormalCondition(targetConditionStr);
             }
         }
-        return result;
+        return targetCurrRows;
     }
 
-    public boolean exeNormalCondition(String targetConditionStr){
-        System.out.println(tableAttribute);
-        System.out.println("exeNormalCondition():|"+targetConditionStr+"|");
+    public List<Integer> exeNormalCondition(String targetConditionStr){
         int valType = 0;
         String attributeFirstElement = "";
         String opt = checkOperators(targetConditionStr);
+        List<Integer> targetCurrRows = new ArrayList<>();
         if (opt!=""&&targetConditionStr!=""){
             String attributeName;
             String val;
-            targetConditionStr = targetConditionStr.replaceAll(" ","");
+            if (opt.equals("LIKE")&&targetConditionStr.contains("like")){
+                targetConditionStr = targetConditionStr.replaceAll(" like ","like");
+            }else {
+                targetConditionStr = targetConditionStr.replaceAll(" "+opt+" ",opt);
+            }
             //System.out.println(str);
             String[] split;
             if (opt.equals("LIKE")&&targetConditionStr.contains("like")){
@@ -73,13 +73,13 @@ public class ConditionExe extends Condition {
                 valType = getValueType(val);
                 attributeFirstElement = getAttributeType(attributeName,reader);
                 if (isConditionExe(attributeFirstElement,valType,opt)){
-                    targetRows.addAll(getTargetRow(attributeName,opt,val,valType));
-                    System.out.println(targetRows);
-                    return true;
+                    targetCurrRows.addAll(getTargetRow(attributeName,opt,val,valType));
+                    System.out.println(targetCurrRows);
+                    return targetCurrRows;
                 }
             }
         }
-        return false;
+        return targetCurrRows;
     }
 
     public String getAttributeType(String attributeName,Reader reader){
@@ -270,10 +270,6 @@ public class ConditionExe extends Condition {
             tmp.remove(delRepeatTarget.get(j));
         }
         return tmp;
-    }
-
-    public List<Integer> getTargetRows(){
-        return targetRows;
     }
 
 

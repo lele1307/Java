@@ -43,13 +43,14 @@ public class Condition extends Value {
             count++;
         }
         if (count>1){
-            while (m.find()){
-                int start = m.start();
-                int end = m.end();
+            Matcher m1 = r.matcher(target);
+            while (m1.find()){
+                int start = m1.start();
+                int end = m1.end();
                 String left = getNormalCondition(target,0,start);
                 String right = getNormalCondition(target,end,target.length());
                 if (left!=""&&right!=""){
-                    conType=m.group();
+                    conType=m1.group();
                 }
             }
         }
@@ -96,7 +97,11 @@ public class Condition extends Value {
         String AttributeName;
         String Value;
         if (regex!=""&&str!=""){
-            str = str.replaceAll(" ","");
+            if("LIKE".equals(regex)&&str.contains("like")){
+                str = str.replaceAll(" like ","like");
+            }else {
+                str = str.replaceAll(" "+regex+" ",regex);
+            }
             //System.out.println(str);
             String[] split;
             if (regex.equals("LIKE")&&str.contains("like")){
@@ -138,7 +143,7 @@ public class Condition extends Value {
     }
 
     public String trimBracket(String str){
-        return str.substring(1,str.length()-1);
+        return str.substring(1,str.length()-1).trim();
     }
 
     public String getNormalCondition(String str,int start,int end){

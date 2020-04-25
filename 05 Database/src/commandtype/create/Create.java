@@ -48,7 +48,7 @@ public class Create implements Name {
     public String [] setAttribute(String attributeList){
         String regEx="[()]";
         String attribute = attributeList.replaceAll(regEx,"");
-        attribute = attribute.replaceAll(",","\t,");
+        attribute = attribute.replaceAll(",","\t,").replaceAll(" ","");
         this.attributesStr = this.attributesStr.concat(attribute);
         return attributesStr.split("\t,");
     }

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  */
 public interface Name {
     public static boolean parseName(String name){
-        String regex = "^[a-z0-9A-Z]+$";
+        String regex = "^[a-z0-9A-Z_]+$";
         return name.matches(regex);
     }
 

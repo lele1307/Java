@@ -1,5 +1,6 @@
 package commandtype;
 import commandtype.inout.Reader;
+import commandtype.inout.Writer;
 import content.Condition;
 import content.ConditionExe;
 import content.Name;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * @author dukehan
  */
-public class Update extends Condition {
+public class Update {
     final static int CMDLEN = 6;
     final static int SET = 2;
     final static int TABLENAME = 1;
@@ -21,14 +22,10 @@ public class Update extends Condition {
     private String setTarget;
     private String[] setFinalTarget;
 
-    public Update(String[] cmd) {
-        super(cmd);
-    }
-
     public Terminal cmdUpdate(Terminal terminal, String[] command){
         if (parseCmd(command)){
-            System.out.println(tableName +" finalSet: "+setTarget);
             terminal.setOutput("Update parse OK");
+            compileUpdate(terminal,command);
             return terminal;
         }
         terminal.setOutput("Update parse fail!!");
@@ -43,8 +40,9 @@ public class Update extends Condition {
             if (where != -1){
                 setSetTarget(command,where);
                 System.out.println("parseSet"+setTarget);
-                if(parseAllNameValList()){
-                    if(parseConditionStr(getConditionStr())){
+                Condition condition = new Condition(command);
+                if(parseAllNameValList(condition)){
+                    if(condition.parseConditionStr(condition.getConditionStr())){
                         return true;
                     }
                 }
@@ -53,21 +51,21 @@ public class Update extends Condition {
         return false;
     }
 
-    public boolean parseAllNameValList(){
+    public boolean parseAllNameValList(Condition condition){
         for (int i=0; i<setFinalTarget.length;i++){
-            if (!parseNameValList(setFinalTarget[i])){
+            if (!parseNameValList(setFinalTarget[i],condition)){
                 return false;
             }
         }
         return true;
     }
 
-    public boolean parseNameValList(String target){
+    public boolean parseNameValList(String target,Condition condition){
         if (target.contains("=")){
             String name = target.substring(0,target.indexOf("="));
             String val = target.substring(target.indexOf("=")+1);
             if(!name.equals("")&&!val.equals("")){
-                if (Name.parseName(name) && parseVal(val)){
+                if (Name.parseName(name) && condition.parseVal(val)){
                     return true;
                 }
             }
@@ -97,12 +95,18 @@ public class Update extends Condition {
         Reader reader = new Reader(pathName);
         if (reader.isExists()){
             ConditionExe conditionExe = new ConditionExe(command,reader);
-            conditionExe.exeCondition(conditionExe.getConditionStr());
-            List<Integer> rows = conditionExe.getTargetRows();
+            List<Integer> rows = conditionExe.exeCondition(conditionExe.getConditionStr());
             System.out.println(rows);
             if (rows.size()!=0){
-                String[][] updateNewTable = updateTable(reader,rows);
-
+                String[][] updateNewTable = updateTable(reader,rows,conditionExe);
+                reader.printTable(updateNewTable);
+                Writer writer = new Writer(pathName);
+                writer.emptyFile();
+                if(writer.writeTableInFile(updateNewTable)){
+                    terminal.setOutput("OK");
+                }else {
+                    terminal.setOutput("ERROR: UPDATE write IN table!");
+                }
             }else{
                 terminal.setOutput("ERROR: Invalid query.");
             }
@@ -112,17 +116,34 @@ public class Update extends Condition {
         return terminal;
     }
 
-    public String[][] updateTable(Reader reader,List<Integer> rows){
+    public String[][] updateTable(Reader reader,List<Integer> rows,ConditionExe conditionExe){
         reader.readAllTable();
         String[][] table = reader.getTableContent();
         List<String> attributes = Arrays.asList(table[0]);
-        List<String> dataType = Arrays.asList(table[1]);
+        List<String> dataType = Arrays.asList(table[rows.get(0)]);
+        System.out.println(tableName +" finalSet: "+setFinalTarget);
+        if (setFinalTarget.length!=0){
+            for (int i=0;i<setFinalTarget.length;i++){
+                String[] set = setFinalTarget[i].split("=");
+                String attribute = set[0];
+                String val = set[1];
+                int col = attributes.indexOf(attribute);
+                if (col!=-1){
+                    int originalDataType = conditionExe.getValueType(dataType.get(col));
+                    int inputDataType = conditionExe.getValueType(val);
+                    if (originalDataType==inputDataType || "NULL".equals(dataType.get(col))){
+                        table = updateVal(table,col,rows,val);
+                    }
+                }
+            }
+        }
+        return table;
+    }
 
-
-
-
-
-
+    public String[][] updateVal(String[][] table,int col,List<Integer> rows,String val){
+        for (int i=0;i<rows.size();i++){
+            table[rows.get(i)][col] = val;
+        }
         return table;
     }
 }

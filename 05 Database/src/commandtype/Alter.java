@@ -61,9 +61,9 @@ public class Alter {
             writer.emptyFile();
             writer.writeTableInFile(tableContent);
             if(terminal.isFixTableStatus()){
-                terminal.setOutput("Alter OK!!");
+                terminal.setOutput("OK");
             }else {
-                terminal.setOutput("Alter fail!!");
+                terminal.setOutput("ERROR: Alter");
             }
             terminal.setFixTableStatus(false);
         } else {

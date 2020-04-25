@@ -3,6 +3,8 @@ package process;
 import content.Name;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author dukehan
@@ -11,27 +13,29 @@ public class Input {
     final static String semiError = "semicolonError";
     private String[] input;
     public Input(String cmd){
-        cmd = cmd.trim();
-        if (cmd.length()<=0){
-            this.input = new String[0];
-        } else {
-            cmd = isSemicolon(cmd);
-            if (cmd.equals(semiError)){
-                this.input = new String[] {"error"};
-            }else {
-                int rightBracket = Name.appearNumber(cmd,")");
-                int leftBracket =Name.appearNumber(cmd,"(");;
-                String[] split;
-                if (rightBracket==1&&leftBracket==1){
-                    split = splitInput(newCMD(cmd));
-                } else {
-                    if (cmd.contains("where")||cmd.contains("WHERE")){
-                        split = newWhereCMD(cmd);
-                    }else {
-                        split = splitInput(cmd);
+        if (cmd!=null){
+            cmd = cmd.trim();
+            if (cmd.length()<=0){
+                this.input = new String[0];
+            } else {
+                cmd = isSemicolon(cmd);
+                if (cmd.equals(semiError)){
+                    this.input = new String[] {"error"};
+                }else {
+                    int rightBracket = Name.appearNumber(cmd,")");
+                    int leftBracket =Name.appearNumber(cmd,"(");;
+                    String[] split;
+                    if (rightBracket==1&&leftBracket==1){
+                        split = newCMD(cmd);
+                    } else {
+                        if (cmd.contains("where")||cmd.contains("WHERE")){
+                            split = newWhereCMD(cmd);
+                        }else {
+                            split = splitInput(cmd);
+                        }
                     }
+                    this.input = split;
                 }
-                this.input = split;
             }
         }
     }
@@ -61,26 +65,17 @@ public class Input {
         return where;
     }
 
-    public String newCMD(String cmd){
+    public String[] newCMD(String cmd){
         int start = cmd.indexOf('(');
-        int end = cmd.lastIndexOf(')');
-        int start1 = -1;
-        int end1 = -1;
-        String orgContent = cmd.substring(0,start);;
-        String bracketContent = new String();
-        String bracketContent1 = new String();
-        String middle = new String();
-        if (start != -1 && end != -1) {
-            start1 = cmd.indexOf('(',start+1);
-            end1 = cmd.indexOf(')',end+1);
-        }
-        if (start1 != -1 && end1 != -1){
-            bracketContent1 = cmd.substring(start1,end1+1).replaceAll(" ","");
-            middle = cmd.substring(end+1,start1);
-        }
-        bracketContent = cmd.substring(start,end+1).replaceAll(" ","");
-        String newCmd = orgContent+bracketContent+middle+bracketContent1;
-        return newCmd;
+        int end = cmd.indexOf(')');
+        String beforeBracket = cmd.substring(0,start);
+        String bracketContent = cmd.substring(start,end+1);
+        List<String> splitCmd = new ArrayList<>();
+        String[] beforeContent = beforeBracket.split(" ");
+        splitCmd.addAll(Arrays.asList(beforeContent));
+        splitCmd.add(bracketContent);
+        String[] result = splitCmd.toArray(new String[0]);
+        return result;
     }
 
     public String[] getInput() {

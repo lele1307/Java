@@ -1,9 +1,6 @@
 package process;
 import commandtype.*;
 import commandtype.create.*;
-import commandtype.inout.Reader;
-import content.Condition;
-import content.ConditionExe;
 
 import static java.lang.System.*;
 
@@ -15,17 +12,18 @@ public class Command  {
     public Command(String cmd, Terminal terminal) {
         Input newCmd = new Input(cmd);
         this.input = newCmd.getInput();
-        if (input.length<=0){
-            terminal.setOutput("");
-            return;
-        }else if (input[0].equals("error")){
-            terminal.setOutput("ERROR Missing ;");
-            return;
-        }else {
-            printInput();
-            processCmd(terminal);
+        if (input!=null){
+            if (input.length<=0){
+                terminal.setOutput("");
+                return;
+            }else if (input[0].equals("error")){
+                terminal.setOutput("ERROR Missing ;");
+                return;
+            }else {
+                printInput();
+                processCmd(terminal);
+            }
         }
-
     }
 
     public void printInput(){
@@ -90,7 +88,7 @@ public class Command  {
                 Delete actionDelete = new Delete();
                 return actionDelete.cmdDelete(terminal,input);
             case "UPDATE":
-                Update actionUpdate = new Update(input);
+                Update actionUpdate = new Update();
                 return actionUpdate.cmdUpdate(terminal,input);
             case "SELECT":
                 Select actionSelect = new Select();

@@ -5,58 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56aebeaf-afd9-4a17-a98f-7bbe3ca81fde" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../05 Database/BNF.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/example-queries.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/instructions.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/.idea/dictionaries/dukehan.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/.idea/template.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/nullmark.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/DBClient.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/DBServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/META-INF/template.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/PrintOut.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/TestMain.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/Alter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/Delete.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/Insert.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/Join.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/Use.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/create/Create.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/create/CreateDatabase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/create/CreateTable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/commandtype/drop/Drop.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/content/Condition.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/content/Value.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/data/Database.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/data/Table.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/process/Command.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/process/Input.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/out/production/template/process/Terminal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/DBClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/DBServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/PrintOut.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/TestMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/Alter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/Delete.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/Insert.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/Join.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/Use.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/create/Create.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/create/CreateDatabase.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/create/CreateTable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/commandtype/drop/Drop.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/content/Condition.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/content/Value.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/data/Database.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/data/Table.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/process/Command.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/process/Input.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../05 Database/template/src/process/Terminal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/DBClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/DBServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/PrintOut.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/TestMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/Alter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/Delete.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/Drop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/Insert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/Join.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/Select.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/Update.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/Use.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/create/Create.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/create/CreateDatabase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/create/CreateTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/inout/Reader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/commandtype/inout/Writer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/content/Condition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/content/ConditionExe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/content/Name.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/content/Value.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/data/Database.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/data/Table.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/process/Command.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/process/Input.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05 Database/src/process/Terminal.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,6 +179,7 @@
       <workItem from="1586871451388" duration="2714000" />
       <workItem from="1587023866653" duration="1674000" />
       <workItem from="1587151305633" duration="71000" />
+      <workItem from="1587806930862" duration="890000" />
     </task>
     <servers />
   </component>

@@ -1,3 +1,6 @@
+import process.Command;
+import process.Terminal;
+
 import java.io.*;
 import java.net.*;
 
@@ -17,38 +20,48 @@ class DBServer
             System.out.println("Server Listening");
             Socket socket = ss.accept();
             System.out.println("Server accepting");
+            Terminal terminal = new Terminal();
+            System.out.println(terminal.getOutput());
             while(true) {
-                acceptNextCommand(socket);
+                acceptNextCommand(socket,terminal);
             }
         } catch (SocketException e){
-            System.err.println(e);
+            e.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
     }
-    private void acceptNextCommand(Socket socket) {
+    private void acceptNextCommand(Socket socket,Terminal terminal) {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            processNextCommand(in,out);
+            processNextCommand(in,out,terminal);
         } catch (SocketException e){
-            System.err.println(e);
-        }catch(IOException ioe) {
-            System.err.println(ioe);
+            e.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
-    private void processNextCommand (BufferedReader in, BufferedWriter out)
+    private void processNextCommand (BufferedReader in, BufferedWriter out,Terminal terminal)
     {
         try {
             String line = in.readLine();
-            System.out.println("line: "+line);
-            String resultSignal ="\n"+EOT+"\n";
-            out.write("Your commandLine111: "+ line + resultSignal);
-            out.flush();
-        }catch (SocketException e){
-            System.err.println(e);
-        }catch(IOException ioe) {
-            System.err.println(ioe);
+            if (line!=null){
+                System.out.println("line: "+line);
+                String resultSignal ="\n"+EOT+"\n";
+                Command commandline = new Command(line,terminal);
+                String result = terminal.getOutput();
+                out.write( result + resultSignal);
+                out.flush();
+                System.out.println("--------------------------------------------");
+                PrintOut.printCurrent(terminal);
+                PrintOut.printAllDb(terminal);
+                System.out.println("--------------------------------------------");
+            }
+        } catch (SocketException e){
+            e.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
 
     }

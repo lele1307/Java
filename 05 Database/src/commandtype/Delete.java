@@ -47,16 +47,14 @@ public class Delete {
         Reader reader = new Reader(pathName);
         if (reader.isExists()){
             ConditionExe conditionExe = new ConditionExe(command,reader);
-            conditionExe.exeCondition(conditionExe.getConditionStr());
-            List<Integer> rows = conditionExe.getTargetRows();
-            System.out.println(rows);
+            List<Integer> rows = conditionExe.exeCondition(conditionExe.getConditionStr());
             if (rows.size()!=0){
                 String[][] newTable = delEleTable(reader,rows);
                 reader.printTable(newTable);
                 Writer writer = new Writer(pathName);
                 writer.emptyFile();
                 if(writer.writeTableInFile(newTable)){
-                    terminal.setOutput("OK del");
+                    terminal.setOutput("OK");
                 }else {
                     terminal.setOutput("ERROR: del update table!");
                 }

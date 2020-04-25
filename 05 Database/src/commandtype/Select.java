@@ -112,8 +112,7 @@ public class Select {
         String result = "";
         if (condition!=null){
             ConditionExe conditionExe = new ConditionExe(command,reader);
-            conditionExe.exeCondition(conditionExe.getConditionStr());
-            List<Integer> rows = conditionExe.getTargetRows();
+            List<Integer> rows = conditionExe.exeCondition(conditionExe.getConditionStr());
             System.out.println(rows);
             result = getConditionSelectResult(attribLists,rows,reader);
         } else {
@@ -138,7 +137,7 @@ public class Select {
                 result = result.concat("\n");
             }
         }
-        return result;
+        return result.replaceAll("'","");
     }
 
 

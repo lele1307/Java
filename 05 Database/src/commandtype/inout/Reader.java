@@ -103,7 +103,13 @@ public class Reader {
                 e.printStackTrace();
             }
         }
-        return outLine.replaceAll("NULL","  ");
+        if (outLine.contains("NULL")){
+            outLine = outLine.replaceAll("NULL","  ");
+        }
+        if (outLine.contains("'")){
+            outLine = outLine.replaceAll("'","");
+        }
+        return outLine;
     }
 
     public ArrayList<Integer> getAttributesIndex(String[] attributes){
@@ -144,15 +150,17 @@ public class Reader {
             int index=0;
             String line = "";
             while((line=reade.readLine())!=null){
-                String[] item = line.split("\t,");
-                if(index==row-1){
-                    //System.out.println(item.length); line length
-                    if(item.length>=col-1){
-                        last = item[col-1];
+                if (!line.equals("")){
+                    String[] item = line.split("\t,");
+                    if(index==row-1){
+                        //System.out.println(item.length); line length
+                        if(item.length>=col-1){
+                            last = item[col-1];
+                        }
                     }
+                    //int value = Integer.parseInt(last);//val can be changed type!!!
+                    index++;
                 }
-                //int value = Integer.parseInt(last);//val can be changed type!!!
-                index++;
             }
         } catch (Exception e) {
             e.printStackTrace();

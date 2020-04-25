@@ -20,7 +20,7 @@ public class CreateDatabase {
             terminal.setDatabases(database);
             terminal.setCurrentDB(database.getName());
             terminal.setCurrentPath(database.getPath());
-            terminal.setOutput("OK CreateDatabase");
+            terminal.setOutput("OK");
             return terminal;
         }
         terminal.setOutput("ERROR : CreateDatabase fail!");

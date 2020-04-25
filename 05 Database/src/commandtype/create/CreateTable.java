@@ -45,7 +45,7 @@ public class CreateTable {
         if (result==true){
             Table table = new Table(tableName,attributes);
             terminal.addDatabaseTable(table);
-            terminal.setOutput("OK CreateTable ");
+            terminal.setOutput("OK");
             return terminal;
         }
         terminal.setOutput("ERROR: CreateTable fail!");

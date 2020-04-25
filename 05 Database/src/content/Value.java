@@ -91,7 +91,11 @@ public class Value {
     public String[] splitValList(){
         String regEx="[()]";
         String ValList = orgValueList.replaceAll(regEx,"");
-        return ValList.split(",");
+        String[] result = ValList.split(",");
+        for (int i=0;i<result.length;i++){
+            result[i] = result[i].trim();
+        }
+        return result;
     }
 
     public String[] getValueList(){

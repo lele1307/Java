@@ -20,7 +20,7 @@ public class Use {
                 terminal.setCurrentDB(dBname);
                 terminal.setCurrentPath(path);
                 terminal.setCurrentDbIndex(currDbIndex(dBname,terminal.getDatabases()));
-                terminal.setOutput("OK Use change");
+                terminal.setOutput("OK");
                 return terminal;
             }
             terminal.setOutput("ERROR: Use change fail! Database not exist!");
