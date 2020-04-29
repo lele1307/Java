@@ -11,38 +11,45 @@ import java.util.List;
 /**
  * @author dukehan
  */
-public class Delete {
-    final static int CMDLEN = 5;
-    final static int FROM = 1;
-    final static int WHERE = 3;
-    final static int TABLENAME = 2;
+public class Delete extends CommonHandler {
+    static final int CMDLEN = 5;
+    static final int FROM = 1;
+    static final int WHERE = 3;
+    static final int TABLE_NAME = 2;
+
     private String tableName;
-    public Terminal cmdDelete(Terminal terminal, String[] command){
-        if (parseCmd(command)){
+
+    @Override
+    public Terminal runCommand(Terminal terminal, String[] command) {
+        if (parseCommand(command)){
             terminal.setOutput("Delete parse OK");
-            compileDelete(terminal,command);
+            executeCommand(terminal,command);
             return terminal;
         }
         terminal.setOutput("Delete parse fail!!");
         return terminal;
     }
 
-    public boolean parseCmd(String[] command){
-        if (command.length==CMDLEN && Name.parseName(command[TABLENAME])){
-            tableName = command[TABLENAME];
-            String where = command[WHERE];
-            String from = command[FROM];
-            if ("WHERE".equals(where) && "FROM".equals(from)){
-                Condition condition = new Condition(command);
-                if(condition.parseConditionStr(condition.getConditionStr())){
-                    return true;
-                }
-            }
+    @Override
+    public boolean parseCommand(String[] command) {
+        if (command.length!=CMDLEN || !Name.parseName(command[TABLE_NAME])){
+            return false;
         }
-        return false;
+        tableName = command[TABLE_NAME];
+        String where = command[WHERE];
+        String from = command[FROM];
+        if (!"WHERE".equals(where) || !"FROM".equals(from)){
+            return false;
+        }
+        Condition condition = new Condition(command);
+        if(!condition.parseConditionStr(condition.getConditionStr())){
+            return false;
+        }
+        return true;
     }
 
-    public Terminal compileDelete(Terminal terminal,String[] command){
+    @Override
+    public Terminal executeCommand(Terminal terminal, String[] command) {
         String pathName = terminal.getCurrentPath()+tableName+".csv";
         Reader reader = new Reader(pathName);
         if (reader.isExists()){
@@ -50,7 +57,6 @@ public class Delete {
             List<Integer> rows = conditionExe.exeCondition(conditionExe.getConditionStr());
             if (rows.size()!=0){
                 String[][] newTable = delEleTable(reader,rows);
-                reader.printTable(newTable);
                 Writer writer = new Writer(pathName);
                 writer.emptyFile();
                 if(writer.writeTableInFile(newTable)){

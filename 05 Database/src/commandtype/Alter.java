@@ -9,20 +9,22 @@ import java.util.Arrays;
 /**
  * @author dukehan
  */
-public class Alter {
-    final static int CMDLEN = 5;
-    final static int TABLE = 1;
-    final static int ALTTYPE = 3;
+public class Alter extends CommonHandler{
+    static final int CMDLEN = 5;
+    static final int TABLE = 1;
+    static final int ALTTYPE = 3;
     private String tableName;
     private String attributeName;
     private String[][] tableContent;
-    public Terminal cmdAlter(Terminal terminal, String[] command){
+
+    @Override
+    public Terminal runCommand(Terminal terminal, String[] command) {
         if(command.length==CMDLEN){
             this.tableName = command[2];
             this.attributeName = command[4];
-            if (parseCmd(command)){
+            if (parseCommand(command)){
                 terminal.setOutput("Alter parse OK");
-                compileAlter(terminal,command);
+                executeCommand(terminal,command);
                 return terminal;
             }
         }
@@ -30,33 +32,35 @@ public class Alter {
         return terminal;
     }
 
-    public boolean parseCmd(String[] command) {
-        if (command[TABLE].toUpperCase().equals("TABLE")){
-            String AlterationType = command[ALTTYPE].toUpperCase();
-            if ("ADD".equals(AlterationType)|| "DROP".equals(AlterationType)){
-                if (Name.parseName(tableName) && Name.parseName(attributeName)){
-                    return true;
-                }
-            }
+    @Override
+    public boolean parseCommand(String[] command) {
+        if (!"TABLE".equals(command[TABLE].toUpperCase())){
+            return false;
         }
-        return false;
+        String AlterationType = command[ALTTYPE].toUpperCase();
+        if (!"ADD".equals(AlterationType) && !"DROP".equals(AlterationType)){
+            return false;
+        }
+        if (!Name.parseName(tableName) || !Name.parseName(attributeName)){
+            return false;
+        }
+        return true;
     }
 
-    public Terminal compileAlter(Terminal terminal,String[] command){
+    @Override
+    public Terminal executeCommand(Terminal terminal,String[] command){
         String pathName = terminal.getCurrentPath()+tableName+".csv";
         String AlterationType = command[ALTTYPE].toUpperCase();
         Reader reader = new Reader(pathName);
         if(reader.isExists()){
             reader.readAllTable();
             this.tableContent = reader.getTableContent();
-            //System.out.println("tableName: "+tableName+" attributeName: "+attributeName);
             ArrayList<String> list = new ArrayList<String>();
             if ("ADD".equals(AlterationType)){
                 alterAdd(terminal,tableName,attributeName,list);
             } else {
                 alterDrop(terminal,list,attributeName);
             }
-            reader.printTable(tableContent);
             Writer writer = new Writer(pathName);
             writer.emptyFile();
             writer.writeTableInFile(tableContent);
@@ -76,7 +80,6 @@ public class Alter {
         if (checkAttribute(tableContent[0],attributeName)==-1){
             //ADD in terminal
             boolean status = terminal.fixCurrTableAttributes(tableName,attributeName,"ADD");
-            System.out.println("STATUS: "+status);
             terminal.setFixTableStatus(status);
             //ADD in array list
             tableContent[0]= addEleInLine(list,tableContent[0],attributeName);

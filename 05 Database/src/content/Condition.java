@@ -2,17 +2,15 @@ package content;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 /**
  * @author dukehan
  */
 public class Condition extends Value {
-    private boolean isSetCondition;
     private String conditionStr;
 
     public Condition(String[] cmd){
         super();
-        this.isSetCondition = setConditionStr(cmd);
+        setConditionStr(cmd);
     }
 
     public String getConditionStr(){
@@ -102,17 +100,16 @@ public class Condition extends Value {
             }else {
                 str = str.replaceAll(" "+regex+" ",regex);
             }
-            //System.out.println(str);
             String[] split;
             if (regex.equals("LIKE")&&str.contains("like")){
                 split = str.split("like");
-            }else {
+            } else {
                 split = str.split(regex);
             }
             if (split.length==2){
                 AttributeName = split[0];
                 Value = split[1];
-                if (Name.parseName(AttributeName) && parseVal(Value)){
+                if (Name.parseName(AttributeName) && parseSingleValue(Value)){
                     return true;
                 }
             }
@@ -130,8 +127,6 @@ public class Condition extends Value {
             int end = m.end();
             String left = getNormalCondition(str,0,start);
             String right = getNormalCondition(str,end,str.length());
-            System.out.println("left: |"+left+"|");
-            System.out.println("right: |"+right+"|");
             if (left!=""&&right!=""){
                 left = trimBracket(left);
                 right = trimBracket(right);
@@ -153,12 +148,11 @@ public class Condition extends Value {
         int right = Name.appearNumber(raw,")");
         if (left==right){
             result = raw.substring(raw.indexOf("("),raw.lastIndexOf(")")+1);
-            //System.out.println(result);
         }
         return result;
     }
 
-    public boolean parseVal(String target){
+    public boolean parseSingleValue(String target){
         if (!parseString(target)){
             if (!parseBoolean(target)){
                 if (!parseInteger(target)){

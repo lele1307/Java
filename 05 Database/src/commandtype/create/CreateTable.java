@@ -8,25 +8,26 @@ import java.io.*;
  * @author dukehan
  */
 public class CreateTable {
-    final static int CMD = 3;
+    static final int CMD = 3;
     private String attributesStr;
     private String[] attributes;
     private String tableName;
     private String tablePath;
     private boolean result;
-    public CreateTable(String[] command,String tablePath,Create parseC){
+
+    public CreateTable(String[] command,String tablePath,String[] attributes,String attributesStr){
         this.tableName = command[2]+".csv";
         this.tablePath = tablePath;
         if (command.length > CMD){
-            this.attributes = parseC.getAttributes();
+            this.attributes = attributes;
         }else {
             this.attributes = new String[]{"id"};
         }
-        this.attributesStr = parseC.getAttributesStr();
-        this.result = mkTable();
+        this.attributesStr = attributesStr;
+        this.result = makeTable();
     }
 
-    public boolean mkTable(){
+    public boolean makeTable(){
         String path = tablePath+tableName;
         try {
             File table = new File(path);
@@ -42,7 +43,7 @@ public class CreateTable {
     }
 
     public Terminal setTable(Terminal terminal){
-        if (result==true){
+        if (result){
             Table table = new Table(tableName,attributes);
             terminal.addDatabaseTable(table);
             terminal.setOutput("OK");

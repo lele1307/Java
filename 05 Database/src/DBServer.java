@@ -21,7 +21,6 @@ class DBServer
             Socket socket = ss.accept();
             System.out.println("Server accepting");
             Terminal terminal = new Terminal();
-            System.out.println(terminal.getOutput());
             while(true) {
                 acceptNextCommand(socket,terminal);
             }
@@ -47,16 +46,11 @@ class DBServer
         try {
             String line = in.readLine();
             if (line!=null){
-                System.out.println("line: "+line);
                 String resultSignal ="\n"+EOT+"\n";
                 Command commandline = new Command(line,terminal);
                 String result = terminal.getOutput();
                 out.write( result + resultSignal);
                 out.flush();
-                System.out.println("--------------------------------------------");
-                PrintOut.printCurrent(terminal);
-                PrintOut.printAllDb(terminal);
-                System.out.println("--------------------------------------------");
             }
         } catch (SocketException e){
             e.printStackTrace();

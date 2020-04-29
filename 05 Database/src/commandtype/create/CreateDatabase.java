@@ -9,13 +9,15 @@ public class CreateDatabase {
     private String dbName;
     private String dbPath;
     private boolean result;
+
     public CreateDatabase(String dbName){
         this.dbName = dbName;
         this.dbPath = "data/"+ dbName;
-        this.result = mkDirectory(dbPath);
+        this.result = makeDirectory(dbPath);
     }
+
     public Terminal setCurrTerminal(Terminal terminal){
-        if (result==true){
+        if (result){
             Database database = new Database(dbName,dbPath+"/");
             terminal.setDatabases(database);
             terminal.setCurrentDB(database.getName());
@@ -26,7 +28,8 @@ public class CreateDatabase {
         terminal.setOutput("ERROR : CreateDatabase fail!");
         return terminal;
     }
-    public boolean mkDirectory(String path) {
+
+    public boolean makeDirectory(String path) {
         File database = new File(path);
         //if exist | create new
         if(!database.exists()){

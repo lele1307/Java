@@ -11,25 +11,28 @@ import java.util.List;
 /**
  * @author dukehan
  */
-public class Select {
-    final static int CMDLEN = 4;
+public class Select extends CommonHandler {
+    static final int CMDLEN = 4;
     private int where = -1;
     private int from = -1;
     private String tableName;
     private String AttribList;
     private String[] AttribLists;
     private String condition;
-    public Terminal cmdSelect(Terminal terminal, String[] command){
-        if (parseCmd(command)){
+
+    @Override
+    public Terminal runCommand(Terminal terminal, String[] command) {
+        if (parseCommand(command)){
             terminal.setOutput("OK Select parse");
-            compileSelect(terminal,command);
+            executeCommand(terminal,command);
             return terminal;
         }
         terminal.setOutput("ERROR: Select parse");
         return terminal;
     }
 
-    public boolean parseCmd(String[] command){
+    @Override
+    public boolean parseCommand(String[] command) {
         int flag=0;
         if (command.length>=CMDLEN){
             from = getSpecialStr(command,"FROM");
@@ -38,7 +41,6 @@ public class Select {
             if (from!=-1&&Name.parseName(tableName)){
                 int len = from+2;
                 setAttribList(command,from);
-                printAttribList();
                 if ((AttribLists[0].equals("*")&&AttribLists.length==1)){
                     flag++;
                 }else if (Name.parseNameList(AttribLists)){
@@ -56,6 +58,23 @@ public class Select {
             }
         }
         return false;
+    }
+
+    @Override
+    public Terminal executeCommand(Terminal terminal, String[] command) {
+        String pathName = terminal.getCurrentPath()+tableName+".csv";
+        Reader reader = new Reader(pathName);
+        if (reader.isExists()){
+            String get = feedbackSelect(reader,AttribLists,condition,command);
+            if (get!=""){
+                terminal.setOutput(get);
+            }else{
+                terminal.setOutput("ERROR: Invalid query.");
+            }
+        } else {
+            terminal.setOutput("ERROR: Unknown table "+"'"+tableName+"'.");
+        }
+        return terminal;
     }
 
     public boolean checkCondition(int where, String[] command){
@@ -77,12 +96,6 @@ public class Select {
         AttribLists = AttribList.split(",");
     }
 
-    public void printAttribList(){
-        for (int i = 0; i<AttribLists.length; i++){
-            System.out.println(AttribLists[i]);
-        }
-    }
-
     public int getSpecialStr(String[] command,String str){
         for (int i=0; i<command.length; i++){
             if (command[i].toUpperCase().equals(str)){
@@ -92,28 +105,11 @@ public class Select {
         return -1;
     }
 
-    public Terminal compileSelect(Terminal terminal,String[] command){
-        String pathName = terminal.getCurrentPath()+tableName+".csv";
-        Reader reader = new Reader(pathName);
-        if (reader.isExists()){
-            String get = feedbackSelect(reader,AttribLists,condition,command);
-            if (get!=""){
-                terminal.setOutput(get);
-            }else{
-                terminal.setOutput("ERROR: Invalid query.");
-            }
-        } else {
-            terminal.setOutput("ERROR: Unknown table "+"'"+tableName+"'.");
-        }
-        return terminal;
-    }
-
     public String feedbackSelect(Reader reader,String[]attribLists,String condition,String[] command) {
         String result = "";
         if (condition!=null){
             ConditionExe conditionExe = new ConditionExe(command,reader);
             List<Integer> rows = conditionExe.exeCondition(conditionExe.getConditionStr());
-            System.out.println(rows);
             result = getConditionSelectResult(attribLists,rows,reader);
         } else {
             result = reader.readColumn(attribLists);
@@ -126,8 +122,6 @@ public class Select {
         String result = "";
         if(attributesIndex.size()!=0 && rows.size()!=0){
             rows.add(0,0);
-            System.out.println("cols: "+attributesIndex);
-            System.out.println("rows: "+rows);
             reader.readAllTable();
             String[][] tableContent = reader.getTableContent();
             for (int i=0;i<rows.size();i++){

@@ -1,15 +1,19 @@
 package data;
-
 import java.util.ArrayList;
 
 /**
  * @author dukehan
  */
 public class Database {
+
     private String name;
+
     private String path;
+
     private int tableNum;
+
     ArrayList<Table> tables;
+
     public Database(String name,String path){
         this.name = name;
         this.path = path;

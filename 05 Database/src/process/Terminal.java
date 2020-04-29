@@ -5,19 +5,15 @@ import data.Table;
 
 import java.io.File;
 import java.util.ArrayList;
-
 /**
  * @author dukehan
  */
 public class Terminal {
     private String rootPath;
     private String output;
-
     private String currentDB;
     private int currentDbIndex;
-
     private boolean fixTableStatus;
-
     private String currentPath;
     private ArrayList<Database> Databases;
 
@@ -112,6 +108,9 @@ public class Terminal {
 
     public String delDatabaseTable(String tableName){
         String pathname = "";
+        if(Databases.isEmpty()){
+            return pathname;
+        }
         if(Databases.get(currentDbIndex).delTable(tableName)){
             pathname = Databases.get(currentDbIndex).getPath()+tableName+".csv";
         }
@@ -153,16 +152,16 @@ public class Terminal {
         for(int i=0;i<array.length;i++){
             if(array[i].isFile()){
                 if (!array[i].getName().equals(".DS_Store")){
-                    initTable(array[i].getPath(),array[i].getName());
+                    startTable(array[i].getPath(),array[i].getName());
                 }
             }else if(array[i].isDirectory()){
-                initDb(array[i].toString());
+                startDb(array[i].toString());
                 getFile(array[i].getPath());
             }
         }
     }
 
-    public void initDb(String dBPath){
+    public void startDb(String dBPath){
         String databaseName = dBPath.substring(rootPath.length());
         if (databaseName.equals(".DS_Store")){
             return;
@@ -172,7 +171,7 @@ public class Terminal {
         setDatabases(newDb);
     }
 
-    public void initTable(String tablePath,String tableName){
+    public void startTable(String tablePath,String tableName){
         Reader reader = new Reader(tablePath);
         String[] attributes = reader.readFirstLine();
         Table newTable = new Table(tableName,attributes);

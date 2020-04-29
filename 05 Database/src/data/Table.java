@@ -6,9 +6,13 @@ import java.util.ArrayList;
  * @author dukehan
  */
 public class Table {
+
     private String name;
+
     private ArrayList<String> attributes;
+
     private int numAttributes;
+
     public Table(String name,String[] attribute){
         this.name = name;
         setAttributes(attribute);
@@ -41,6 +45,5 @@ public class Table {
     public void dropNumAttributes(){
         numAttributes--;
     }
-
 
 }

@@ -1,7 +1,5 @@
 package process;
-
 import content.Name;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +8,11 @@ import java.util.List;
  * @author dukehan
  */
 public class Input {
-    final static String semiError = "semicolonError";
+
+    static final String SEMI_ERROR = "semicolonError";
+
     private String[] input;
+
     public Input(String cmd){
         if (cmd!=null){
             cmd = cmd.trim();
@@ -19,7 +20,7 @@ public class Input {
                 this.input = new String[0];
             } else {
                 cmd = isSemicolon(cmd);
-                if (cmd.equals(semiError)){
+                if (cmd.equals(SEMI_ERROR)){
                     this.input = new String[] {"error"};
                 }else {
                     int rightBracket = Name.appearNumber(cmd,")");
@@ -87,13 +88,11 @@ public class Input {
         if (semicolon==';'){
             return cmd.substring(0,cmd.length()-1);
         }
-        return semiError;
+        return SEMI_ERROR;
     }
 
     public String[] splitInput(String cmd){
         return cmd.split(" ");
     }
-
-
 
 }

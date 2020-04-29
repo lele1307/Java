@@ -10,45 +10,49 @@ import java.util.ArrayList;
 /**
  * @author dukehan
  */
-public class Insert extends Value {
-    final static int CMDLEN = 5;
-    final static int VAL = 4;
-    final static int VALUES = 3;
-    final static int INTO = 1;
-    public Insert() {
-        super();
-    }
+public class Insert extends CommonHandler {
+    static final int CMDLEN = 5;
+    static final int VAL = 4;
+    static final int VALUES = 3;
+    static final int INTO = 1;
+    private Value value = new Value();
 
-    public Terminal cmdInsert(Terminal terminal, String[] command){
-        if (parseCmd(command)){
+    @Override
+    public Terminal runCommand(Terminal terminal, String[] command) {
+        if (parseCommand(command)){
             terminal.setOutput("Insert parse OK");
-            compileInsert(terminal,command);
+            executeCommand(terminal,command);
             return terminal;
         }
         terminal.setOutput("Insert parse fail!!");
         return terminal;
     }
 
-    public boolean parseCmd(String[] command){
-        if (command.length==CMDLEN){
-            String into = command[INTO].toUpperCase();
-            String values = command[VALUES].toUpperCase();
-            String tableName = command[2];
-            if (Name.parseName(tableName) &&"INTO".equals(into)&& "VALUES".equals(values)){
-                setOrgValueList(command,VAL);
-                parseValueList();
-                if (getValueList()!=null){
-                    return true;
-                }
-            }
+    @Override
+    public boolean parseCommand(String[] command) {
+        if (command.length!=CMDLEN){
+            return false;
         }
-        return false;
+        String into = command[INTO].toUpperCase();
+        String values = command[VALUES].toUpperCase();
+        String tableName = command[2];
+        if (!Name.parseName(tableName) || !"INTO".equals(into) || !"VALUES".equals(values)){
+            return false;
+        }
+        value.setOrgValueList(command,VAL);
+        value.parseValueList();
+        if (value.getValueList()==null){
+            return false;
+        }
+        return true;
+
     }
 
-    public Terminal compileInsert(Terminal terminal,String[] command){
+    @Override
+    public Terminal executeCommand(Terminal terminal,String[] command){
         String tableName = command[2];
         String pathName = terminal.getCurrentPath()+tableName+".csv";
-        String[] valueList = getValueList();
+        String[] valueList = value.getValueList();
         int valNum = valueList.length;
         Reader reader = new Reader(pathName);
         if (reader.isExists()){
@@ -60,7 +64,6 @@ public class Insert extends Value {
                 //Insert
                 Writer writer = new Writer(pathName);
                 String newInsertLine = insertNewLine(currentRowIndex,valueList,writer);
-                System.out.println(newInsertLine);
                 writer.writeOneLineInFile(newInsertLine);
                 terminal.setOutput("OK");
             }

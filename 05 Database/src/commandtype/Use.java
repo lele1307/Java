@@ -8,25 +8,41 @@ import java.util.ArrayList;
 /**
  * @author dukehan
  */
-public class Use {
-    final static int CMDLEN = 2;
-    final static int NAME = 1;
-    public  Terminal cmdUse(Terminal terminal,String[] command){
+public class Use extends CommonHandler {
+    static final int CMDLEN = 2;
+    static final int NAME = 1;
+
+    @Override
+    public Terminal runCommand(Terminal terminal, String[] command) {
+        if (parseCommand(command)){
+            executeCommand(terminal,command);
+        }else {
+        terminal.setOutput("ERROR: Please check your input! 'USE <DatabaseName>' ");
+        }
+        return terminal;
+    }
+
+    @Override
+    public boolean parseCommand(String[] command) {
+        if (command.length==CMDLEN && Name.parseName(command[NAME])){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Terminal executeCommand(Terminal terminal, String[] command) {
         String dBname = command[1];
         String path = terminal.getRootPath()+dBname+"/";
-        if (parseCmd(command)){
-            File database = new File(path);
-            if (database.exists()){
-                terminal.setCurrentDB(dBname);
-                terminal.setCurrentPath(path);
-                terminal.setCurrentDbIndex(currDbIndex(dBname,terminal.getDatabases()));
-                terminal.setOutput("OK");
-                return terminal;
-            }
-            terminal.setOutput("ERROR: Use change fail! Database not exist!");
+        File database = new File(path);
+        if (database.exists()){
+            terminal.setCurrentDB(dBname);
+            terminal.setCurrentPath(path);
+            terminal.setCurrentDbIndex(currDbIndex(dBname,terminal.getDatabases()));
+            terminal.setOutput("OK");
             return terminal;
         }
-        terminal.setOutput("ERROR: Please check your input! 'USE <DatabaseName>' ");
+        terminal.setOutput("ERROR: Use change fail! Database not exist!");
         return terminal;
     }
 
@@ -39,10 +55,5 @@ public class Use {
         return -1;
     }
 
-    public boolean parseCmd(String[] command){
-        if (command.length==CMDLEN && Name.parseName(command[NAME])){
-            return true;
-        }
-        return false;
-    }
+
 }

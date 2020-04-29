@@ -1,47 +1,51 @@
 package commandtype;
-
 import commandtype.inout.Reader;
 import content.Name;
 import process.Terminal;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Join {
-    final static int CMDLEN = 8;
-    final static int ON = 4;
-    final static int[] AND = {2,6};
+/**
+ * @author dukehan
+ */
+public class Join extends CommonHandler {
+    static final int CMDLEN = 8;
+    static final int ON = 4;
+    static final int[] AND = {2,6};
     private List <String> tableName = new ArrayList<>();
     private List <String> attributeName = new ArrayList<>();
     private String[][] table1;
     private String[][] table2;
-    public Terminal cmdJoin(Terminal terminal, String[] command){
-        if (parseCmd(command)){
-            terminal.setOutput("Join parse OK");
-            compileJoin(terminal,command);
-            return terminal;
+
+    @Override
+    public Terminal runCommand(Terminal terminal, String[] command) {
+        if (parseCommand(command)){
+            return executeCommand(terminal,command);
         }
         terminal.setOutput("Join parse fail!!");
         return terminal;
     }
 
-    public boolean parseCmd(String[] command){
-        if (command.length==CMDLEN){
-            String and1 = command[AND[0]];
-            String and2 = command[AND[1]];
-            String on = command[ON];
-            if ("AND".equals(and1) && "ON".equals(on) && "AND".equals(and2)){
-                if (parseName(command)){
-                    tableName.add(command[1]);
-                    tableName.add(command[3]);
-                    attributeName.add(command[5]);
-                    attributeName.add(command[7]);
-                    return true;
-                }
-            }
+    @Override
+    public boolean parseCommand(String[] command) {
+        if (command.length!=CMDLEN){
+            return false;
         }
-        return false;
+        String and1 = command[AND[0]];
+        String and2 = command[AND[1]];
+        String on = command[ON];
+        if (!"AND".equals(and1) || !"ON".equals(on) || !"AND".equals(and2)){
+            return false;
+        }
+        if (!parseName(command)){
+            return false;
+        }
+        tableName.add(command[1]);
+        tableName.add(command[3]);
+        attributeName.add(command[5]);
+        attributeName.add(command[7]);
+        return true;
     }
 
     public boolean parseName(String[] command){
@@ -53,7 +57,8 @@ public class Join {
         return true;
     }
 
-    public Terminal compileJoin(Terminal terminal,String[] command){
+    @Override
+    public Terminal executeCommand(Terminal terminal, String[] command) {
         String pathName1 = setPathName(tableName.get(0),terminal);
         String pathName2 = setPathName(tableName.get(1),terminal);
         if (getTargetTables(pathName1,pathName2)){
@@ -103,7 +108,6 @@ public class Join {
         String firstTable = buildOneAttributeNameList(table1[0],tableName.get(0));
         String secondTable = buildOneAttributeNameList(table2[0],tableName.get(1));
         String connect = root+firstTable+","+secondTable;
-        System.out.println(connect);
         return connect.split(",");
     }
 
@@ -192,7 +196,7 @@ public class Join {
         }else if (table==2){
             mainRows =getMainRows(table1);
         }
-        if (mainRows.size()!=0){
+        if (!mainRows.isEmpty()){
             relationRows.retainAll(mainRows);
             relationRows3.removeAll(mainRows);
         }

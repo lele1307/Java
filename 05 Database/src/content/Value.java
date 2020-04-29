@@ -1,10 +1,12 @@
 package content;
-
+/**
+ * @author dukehan
+ */
 public class Value {
     private String[] valueList;
+
     private String orgValueList;
-    public Value(){
-    }
+
     public void setOrgValueList(String[] cmd,int index){
         this.orgValueList = cmd[index];
     }

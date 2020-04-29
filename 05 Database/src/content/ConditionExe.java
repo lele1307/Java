@@ -7,9 +7,13 @@ import java.util.*;
  */
 public class ConditionExe extends Condition {
     private List<String> tableAttribute;
+
     private Value value;
+
     private Reader reader;
+
     private int optValType;
+
     public ConditionExe(String[] command, Reader reader){
         super(command);
         this.reader = reader;
@@ -23,22 +27,21 @@ public class ConditionExe extends Condition {
     }
 
     public List<Integer> exeCondition(String targetConditionStr){
-        List<String> pairCondition = new ArrayList<>();
-        String ConditionType = checkConditionType(targetConditionStr);
+        List<String> pairCondition;
+        String conditionType = checkConditionType(targetConditionStr);
         List<Integer> targetCurrRows = new ArrayList<>();
-        //boolean result = false;
-        if (ConditionType!=""){
+        if (conditionType!=""){
             pairCondition = parseConnectCondition(targetConditionStr);
-            for (int i=0; i<pairCondition.size();i++){
-                targetCurrRows.addAll(exeCondition(pairCondition.get(i)));
+            for (String s : pairCondition) {
+                targetCurrRows.addAll(exeCondition(s));
             }
-            if (ConditionType.equals("AND")){
+            if ("AND".equals(conditionType)){
                 targetCurrRows = getRepeat(targetCurrRows);
-            }else if (ConditionType.equals("OR")){
+            }else if ("OR".equals(conditionType)){
                 targetCurrRows = delRepeat(targetCurrRows);
             }
         } else {
-            if (ConditionType == ""){
+            if (conditionType == ""){
                 targetCurrRows = exeNormalCondition(targetConditionStr);
             }
         }
@@ -58,7 +61,6 @@ public class ConditionExe extends Condition {
             }else {
                 targetConditionStr = targetConditionStr.replaceAll(" "+opt+" ",opt);
             }
-            //System.out.println(str);
             String[] split;
             if (opt.equals("LIKE")&&targetConditionStr.contains("like")){
                 split = targetConditionStr.split("like");
@@ -68,13 +70,10 @@ public class ConditionExe extends Condition {
             if (split.length==2){
                 attributeName = split[0];
                 val = split[1];
-                System.out.println("opt:|"+checkOperators(targetConditionStr)+"|"
-                        +"AttributeName :|"+attributeName+"| Value :|"+val+"|");
                 valType = getValueType(val);
                 attributeFirstElement = getAttributeType(attributeName,reader);
                 if (isConditionExe(attributeFirstElement,valType,opt)){
                     targetCurrRows.addAll(getTargetRow(attributeName,opt,val,valType));
-                    System.out.println(targetCurrRows);
                     return targetCurrRows;
                 }
             }
@@ -89,7 +88,6 @@ public class ConditionExe extends Condition {
             int col = tableAttribute.indexOf(attributeName)+1;
             //col from index 0 ,must add 1 to use !!!
             attributeFirstElement = reader.getElement(2,col);
-            System.out.println("col!!!!!: "+col+"   "+attributeFirstElement);
         }
         return attributeFirstElement;
     }
@@ -128,18 +126,16 @@ public class ConditionExe extends Condition {
             if (valType==3||valType==4){
                 return 2;
             }
-        } else if ("LIKE".equals(opt)){
-            if (valType==1){
-                return 3;
-            }
+        } else if ("LIKE".equals(opt)&&valType==1){
+            return 3;
         }
         return -1;
     }
 
     public List<Integer> getTargetRow(String attributeName,String opt,String val,int valType){
-        List<String> colVal = getTargetColVal(attributeName,reader);
+        List<String> colVal = getTargetColumnValue(attributeName,reader);
         List<Integer> rows = new ArrayList<>();
-        if (colVal.size()!=0){
+        if (!colVal.isEmpty()){
             if (optValType==1){
                 //opt-> ==/!=
                 rows = isEqualExe(colVal,val,opt);
@@ -148,13 +144,13 @@ public class ConditionExe extends Condition {
                 rows = isNumExe(colVal,val,opt,valType);
             }else if (optValType==3){
                 //opt-> LIKE
-                rows = isLikeExe(colVal,val,opt);
+                rows = isLikeExe(colVal,val);
             }
         }
         return rows;
     }
 
-    public List<String> getTargetColVal(String attributeName,Reader reader){
+    public List<String> getTargetColumnValue(String attributeName,Reader reader){
         int col = tableAttribute.indexOf(attributeName);
         List<String> colVal= new ArrayList<>();
         reader.readAllTable();
@@ -197,7 +193,6 @@ public class ConditionExe extends Condition {
         }
 
         for (int i=0; i<colVal.size();i++){
-
             if (">".equals(opt)){
                 if (valType==3 && newColValInt.get(i) >newValInt){
                     rows.add(i+1);
@@ -227,7 +222,7 @@ public class ConditionExe extends Condition {
         return rows;
     }
 
-    public List<Integer> isLikeExe(List<String> colVal,String val,String opt){
+    public List<Integer> isLikeExe(List<String> colVal,String val){
         List<Integer> rows = new ArrayList<>();
         for (int i=0; i<colVal.size();i++){
             String target = colVal.get(i).replaceAll("'","");

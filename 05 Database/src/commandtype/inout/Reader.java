@@ -74,12 +74,6 @@ public class Reader {
         return raw;
     }
 
-    public void printTable(String[][] target){
-        for (int i=0;i<target.length;i++){
-            System.out.println(Arrays.toString(target[i]));
-        }
-    }
-
     public String[][] getTableContent(){
         return tableContent;
     }
@@ -153,12 +147,10 @@ public class Reader {
                 if (!line.equals("")){
                     String[] item = line.split("\t,");
                     if(index==row-1){
-                        //System.out.println(item.length); line length
                         if(item.length>=col-1){
                             last = item[col-1];
                         }
                     }
-                    //int value = Integer.parseInt(last);//val can be changed type!!!
                     index++;
                 }
             }
