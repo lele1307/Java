@@ -34,7 +34,7 @@ public class Alter extends CommonHandler{
 
     @Override
     public boolean parseCommand(String[] command) {
-        if (!"TABLE".equals(command[TABLE].toUpperCase())){
+        if (!command[TABLE].toUpperCase().equals("TABLE")){
             return false;
         }
         String AlterationType = command[ALTTYPE].toUpperCase();

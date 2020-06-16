@@ -19,7 +19,6 @@ class DBServer
             ServerSocket ss = new ServerSocket(portNumber);
             System.out.println("Server Listening");
             Socket socket = ss.accept();
-            System.out.println("Server accepting");
             Terminal terminal = new Terminal();
             while(true) {
                 acceptNextCommand(socket,terminal);

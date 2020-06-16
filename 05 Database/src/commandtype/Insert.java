@@ -94,7 +94,6 @@ public class Insert extends CommonHandler {
         }
         String[] newStr = newInset.toArray(new String[0]);
         String newIn =  writer.buildStrLine(newStr);
-        //newIn = newIn.replaceAll("'","");
         return newIn;
     }
 

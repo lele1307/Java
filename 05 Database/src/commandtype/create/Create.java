@@ -80,12 +80,5 @@ public class Create extends CommonHandler implements Name {
         return attributesStr.split("\t,");
     }
 
-    public String[] getAttributes() {
-        return attributes;
-    }
-
-    public String getAttributesStr(){
-        return attributesStr;
-    }
 
 }

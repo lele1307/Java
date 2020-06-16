@@ -34,27 +34,31 @@ public class Select extends CommonHandler {
     @Override
     public boolean parseCommand(String[] command) {
         int flag=0;
-        if (command.length>=CMDLEN){
-            from = getSpecialStr(command,"FROM");
-            where = getSpecialStr(command,"WHERE");
-            tableName = command[from+1];
-            if (from!=-1&&Name.parseName(tableName)){
-                int len = from+2;
-                setAttribList(command,from);
-                if ((AttribLists[0].equals("*")&&AttribLists.length==1)){
-                    flag++;
-                }else if (Name.parseNameList(AttribLists)){
-                    flag++;
-                }else {
-                    flag=-1;
-                }
-                if (flag>0){
-                    if (len==command.length){
-                        return true;
-                    }else if (len<command.length){
-                        return checkCondition(where,command);
-                    }
-                }
+        if (command.length<CMDLEN){
+            return false;
+        }
+        from = getSpecialStr(command,"FROM");
+        where = getSpecialStr(command,"WHERE");
+        tableName = command[from+1];
+        if (from==-1 || !Name.parseName(tableName)){
+            return false;
+        }
+        int len = from+2;
+        setAttribList(command,from);
+
+        if ((AttribLists[0].equals("*")&&AttribLists.length==1)){
+            flag++;
+        }else if (Name.parseNameList(AttribLists)){
+            flag++;
+        }else {
+            flag=-1;
+        }
+
+        if (flag>0){
+            if (len==command.length){
+                return true;
+            }else if (len<command.length){
+                return checkCondition(where,command);
             }
         }
         return false;

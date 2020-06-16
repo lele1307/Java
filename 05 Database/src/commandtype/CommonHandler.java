@@ -21,4 +21,5 @@ public abstract class CommonHandler {
      * @return executed result reset Terminal.setOut
      */
     public abstract Terminal executeCommand(Terminal terminal,String[] command);
+
 }
